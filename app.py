@@ -134,7 +134,7 @@ with st.expander("So funktioniert ein Elfmeterschießen mit Reihenfolge", expand
 2. **Vorzeitiger Abbruch:** Sobald eine Mannschaft auch dann nicht mehr einzuholen wäre, wenn sie alle ihre restlichen Schüsse trifft und die andere alle verfehlt, endet die Regelzeit.
 3. **Sudden Death:** Steht es nach allen Schüssen unentschieden, schießen beide Mannschaften paarweise weiter, bis ein Paar sie trennt (ein Treffer, ein Fehlschuss). Bei ABAB beginnt A immer; bei ABBA wechselt der Beginn von Paar zu Paar, bei fünf Schüssen beginnt das Paar 6 mit B.
 4. **Trefferwahrscheinlichkeit:** *p*, solange die schießende Mannschaft nicht zurückliegt; *p − d* im Rückstand. Mit *d = 0* sind die Schüsse unabhängig.
-5. **Was gemessen wird:** die Wahrscheinlichkeit, dass die erste Mannschaft (A) gewinnt, exakt aus einer Rekursion über alle Spielstände, nachgeprüft durch Aufzählung aller Schussfolgen, die geschlossene Form des Sudden Death und ein Nachspielen mit dem Zufallsgenerator der Demo.
+5. **Was gemessen wird:** die Wahrscheinlichkeit, dass die erste Mannschaft (A) gewinnt, exakt aus einer Rekursion über alle Spielstände, nachgeprüft durch Aufzählung aller Schussfolgen, die geschlossene Form des Sudden Death und eine Monte-Carlo-Simulation mit dem Zufallsgenerator der Demo.
         """
     )
 
@@ -259,13 +259,13 @@ with tab_shoot:
     kind, text = E.verdict_sweep_r(rows_r)
     getattr(st, kind)(text)
 
-    st.subheader("🔬 Experiment 4: Probe durch Nachspielen")
+    st.subheader("🔬 Experiment 4: Probe durch Monte-Carlo-Simulation")
     st.caption(f"{de_int(C.MC_N)} Elfmeterschießen mit dem Zufallsgenerator der Demo (fester Zufalls-Seed {C.MC_SEED}), Reihenfolge {order}, gegen die exakte Wahrscheinlichkeit.")
-    with st.spinner(f"Spiele {de_int(C.MC_N)} Elfmeterschießen nach (dauert etwa eine Sekunde) …"):
+    with st.spinner(f"Simuliere {de_int(C.MC_N)} Elfmeterschießen (dauert etwa eine Sekunde) …"):
         res = _probe(order, settings.r, settings.p, settings.d)
     kind, text = E.verdict_probe(res)
     getattr(st, kind)(text)
-    st.caption(f"Mittlere Schusszahl im Nachspielen {res['mean_shots']:.2f}, exakt {res['exact_shots']:.2f}.")
+    st.caption(f"Mittlere Schusszahl in der Monte-Carlo-Simulation {res['mean_shots']:.2f}, exakt {res['exact_shots']:.2f}.")
 
 # =================================================================================================================================================
 # Reiter 2: Wahlreihenfolge
